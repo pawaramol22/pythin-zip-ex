@@ -1,0 +1,23 @@
+import mmap
+import re
+
+def find_matches_in_large_file(file_path, regex_pattern):
+    with open(file_path, 'r') as file:
+        # Create a memory-mapped file
+        with mmap.mmap(file.fileno(), 0, access=mmap.ACCESS_READ) as mmapped_file:
+            # Use regular expression to find matches
+            matches = re.finditer(regex_pattern, mmapped_file)
+            
+            # Collect matching results
+            matching_lines = [match.group(0) for match in matches]
+            
+            return matching_lines
+
+# Example usage
+file_path = 'large_file.txt'
+regex_pattern = r'\b\d{3}-\d{2}-\d{4}\b'  # Example regex pattern for SSN
+matching_results = find_matches_in_large_file(file_path, regex_pattern)
+
+# Print the matching results
+for result in matching_results:
+    print(result)
