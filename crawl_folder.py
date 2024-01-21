@@ -33,8 +33,7 @@ def batch_files_by_size_with_constraints(directory, batch_sizes, max_batch_sizes
             if sub_batch: # if there is a remaining sub batch
                 sub_batches.append(sub_batch) # add it to the list
             batches[i] = sub_batches # replace the original batch with the list of sub batches
-    if len(batches[-1]) == 1: # if the last batch contains only one file
-        # move the file to the previous batch
-        batches[-2].append(batches[-1][0])
-        batches.pop() # remove the last batch
+            
+    # modify the last batch to contain only one file per sub batch
+    batches[-1] = [[file_path] for file_path in batches[-1]]
     return batches # return the list of batches
